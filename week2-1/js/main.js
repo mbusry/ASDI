@@ -30,7 +30,7 @@ $('#list').on('pageinit', function() {
 	//code needed for list page goes here
 	listClass();
 	$("#editPeopleButton").click(function() {
-		window.location.assign('#addAttendant')
+		window.location.assign('#addAttendant');
 		var key = $(this).attr('data-key');
 		var value = localStorage.getItem(key);
 		var editThis = JSON.parse(value);
