@@ -29,17 +29,21 @@ $('#addAttendant').on('pageinit', function() {
 $('#list').on('pageinit', function() {
 	//code needed for list page goes here
 	listClass();
-	$("#editPeopleButton").click(function() {
-		window.location.assign('#addAttendant');
-		var key = $(this).attr('data-key');
-		var value = localStorage.getItem(key);
-		var editThis = JSON.parse(value);
-		$('#className').attr('value', editThis.className[1]);
-		$('#currentDate').attr('value', editThis.currentDate[1]);
-		$('#fname').attr('value', editThis.fname[1]);
-		$('#lname').attr('value', editThis.lname[1]);
-		$('#phoneNumber').attr('value', editThis.phoneNumber[1]);
-	});
+$("#editPeopleButton").click(function() {
+               window.location.assign('#addAttendant');
+               $('#addForm')[0].reset();
+               var key = $(this).attr('data-key');
+               var value = localStorage.getItem(key);
+               var editThis = JSON.parse(value);
+               $('select option[value=blank]').attr('selected', false);
+               $('select option[value='+editThis.className[1]+']').attr('selected', true);
+               $('#currentDate').attr('value', editThis.currentDate[1]);
+               $('#fname').attr('value', editThis.fname[1]);
+               $('#lname').attr('value', editThis.lname[1]);
+               $('#phoneNumber').attr('value', editThis.phoneNumber[1]);
+
+       });
+       
 	$("#DeletePeopleButton").click(function() {
 		// key = this.key;
 		alert("I just click the delete button.   The key is: " + key);
