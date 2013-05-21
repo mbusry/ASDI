@@ -35,7 +35,7 @@ $('#list').on('pageinit', function() {
 $('#edit').on('pageinit', function() {
 	//code needed for list page goes here
 	testClass("edit");
-	console.log("I'm in the #edit pageinit: " +key);
+	console.log("I'm in the #edit pageinit: " + key);
 	// extra code goes here
 });
 
@@ -48,30 +48,39 @@ var testClass = function(x) {
 // listClass: list each object from localStorage
 
 var listClass = function() {
-	console.log("Contents of localStorage: " + localStorage);
+	console.log("Number of items in localStorage are: " + localStorage.length);
 	if (localStorage.length === 0) {
 		console.log("no localstorage");
 		alert("There is nothing here.  Please add someone.");
 	}
 	for (var i = 0, len = localStorage.length; i < len; i++) {
 		var key = localStorage.key(i);
+
 		var value = localStorage.getItem(key);
 		var obj = JSON.parse(value);
-		console.log(obj);
+		
 		// $('#listPeople').append('<div id = "' + key + '">')
 		$('#listPeople').append('<li>' + obj.className[1] + '</li>');
 		$('#listPeople').append('<li>' + obj.currentDate[1] + '</li>');
 		$('#listPeople').append('<li>' + obj.fname[1] + '</li>');
 		$('#listPeople').append('<li>' + obj.lname[1] + '</li>');
 		$('#listPeople').append('<li>' + obj.phoneNumber[1] + '</li>');
-		$('#listPeople').append('<input type="button" value="Edit" id = "EditPeopleButton" data-theme = "a" />');
+		$('#listPeople').append('<input type="button" value="Edit" id = "EditPeopleButton" data-key = ' +key+' data-theme = "a" />');
 		$('#listPeople').append('</br>');
-		$('#listPeople').append('<input type="button" value="Delete" id = "DeletePeopleButton" data-theme = "a" />');
+		$('#listPeople').append('<input type="button" value="Delete" id = "DeletePeopleButton" data-key = ' +key+' data-theme = "a" />');
 		$('#listPeople').append('</div');
-		console.log("Key sent to editLinks:" + key);
-// 
-		// Links(key);
-		// $('#listPeople').append(makeEditLink(key));
+		$('#listPeople').append('<p>');
+		$("#EditPeopleButton").click(function() {
+			// key = this.key;
+			alert("I just click the edit button.  The key is: " + key);
+		});
+		$("#DeletePeopleButton").click(function() {
+			// key = this.key;
+			alert("I just click the delete button.   The key is: " + key);
+		});
+		console.log("Key is = " + key);
+		console.log("loop variables: i: " + i + " len: " + len + " key: " + key + " value: " + value);
+		alert("The end of loop number: "+i);
 		
 	}
 };
@@ -139,10 +148,11 @@ function Links(key) {
 
 	console.log("In editLinks functions");
 	console.log("Key received from editLinks:" + key);
-	$('#listPeople').append('<input type="button" value="Edit" id = "EditPeopleButton" data-theme = "a" />');
-	$('#listPeople').append('</br>');
-	$('#listPeople').append('<input type="button" value="Delete" id = "DeletePeopleButton" data-theme = "a" />');
 
+	makeEditLink(key);
+	// $('#listPeople').append('<input type="button" value="Edit" id = "EditPeopleButton" data-theme = "a" />');
+	// $('#listPeople').append('</br>');
+	// $('#listPeople').append('<input type="button" value="Delete" id = "DeletePeopleButton" data-theme = "a" />');
 	// $('#listPeople').append('<a href="#edit" id="editClassButton">Edit</a>');
 	// var linksLi = document.createElement("li");
 	// var editLink = document.createElement('a');
@@ -240,33 +250,35 @@ function clearLocal() {
 
 // makeEditLink
 
-function makeEditLink(key){
+function makeEditLink(key) {
 	console.log("in makeEditLink");
-		ce = document.createElement("li");
-		var editLink = document.createElement('a');
-		editLink.href = "#";
-		editLink.key = key;
-		var editText = "Edit";
-		editLink.addEventListener("click", editClass);
-		editLink.innerHTML = editText;
-		ce.appendChild(editLink);
-		
-		// this section will add a br tag to seperate the links for edit and delete groceries
-		var breakTag = document.createElement('br');
-		ce.appendChild(breakTag);
-		 
-		
-		// delete link
-		var deleteLink = document.createElement('a');
-		deleteLink.href = "#";
-		deleteLink.key = key;
-		var deleteText = "Delete ";
-		deleteLink.innerHTML = deleteText;
-		// will delete the grocerlist item
-		deleteLink.addEventListener("click", deletePerson); 
-		ce.appendChild(deleteLink);
-};
 
+	ce = $('#listPeople').append('<li>');
+
+	//ce = document.createElement("li");
+	editLink = $('#listPeople').append('<a>');
+	//var editLink = document.createElement('a');
+	editLink.href = "#";
+	editLink.key = key;
+	var editText = "Edit";
+	editLink.addEventListener("click", editClass);
+	editLink.innerHTML = editText;
+	ce.appendChild(editLink);
+
+	// this section will add a br tag to seperate the links for edit and delete groceries
+	var breakTag = document.createElement('br');
+	ce.appendChild(breakTag);
+
+	// delete link
+	var deleteLink = document.createElement('a');
+	deleteLink.href = "#";
+	deleteLink.key = key;
+	var deleteText = "Delete ";
+	deleteLink.innerHTML = deleteText;
+	// will delete the grocerlist item
+	deleteLink.addEventListener("click", deletePerson);
+	ce.appendChild(deleteLink);
+};
 
 // deletePerson function
 
@@ -300,6 +312,6 @@ $("#listSavedData").click(function() {
 });
 $("#EditPeopleButton").click(function() {
 	// key = this.key;
-	window.location = '#edit';
+	alert("I just click the edit button");
 });
 
