@@ -30,9 +30,13 @@ $('#list').on('pageinit', function() {
 	//code needed for list page goes here
 	listClass();
 	$("#EditPeopleButton").click(function() {
-	// key = this.key;
-	alert("I just click the edit button");
-});
+		// key = this.key;
+		alert("I just click the edit button");
+	});
+	$("#DeletePeopleButton").click(function() {
+		// key = this.key;
+		alert("I just click the delete button.   The key is: " + key);
+	});
 
 	// extra code goes here
 });
@@ -63,30 +67,22 @@ var listClass = function() {
 
 		var value = localStorage.getItem(key);
 		var obj = JSON.parse(value);
-		
+
 		// $('#listPeople').append('<div id = "' + key + '">')
 		$('#listPeople').append('<li>' + obj.className[1] + '</li>');
 		$('#listPeople').append('<li>' + obj.currentDate[1] + '</li>');
 		$('#listPeople').append('<li>' + obj.fname[1] + '</li>');
 		$('#listPeople').append('<li>' + obj.lname[1] + '</li>');
 		$('#listPeople').append('<li>' + obj.phoneNumber[1] + '</li>');
-		$('#listPeople').append('<input type="button" value="Edit" id = "EditPeopleButton" data-key = ' +key+' data-theme = "a" />');
+		$('#listPeople').append('<input type="button" value="Edit" id = "EditPeopleButton" data-key = ' + key + ' data-theme = "a" />');
 		$('#listPeople').append('</br>');
-		$('#listPeople').append('<input type="button" value="Delete" id = "DeletePeopleButton" data-key = ' +key+' data-theme = "a" />');
+		$('#listPeople').append('<input type="button" value="Delete" id = "DeletePeopleButton" data-key = ' + key + ' data-theme = "a" />');
 		$('#listPeople').append('</div');
 		$('#listPeople').append('<p>');
-		$("#EditPeopleButton").click(function() {
-			// key = this.key;
-			alert("I just click the edit button.  The key is: " + key);
-		});
-		$("#DeletePeopleButton").click(function() {
-			// key = this.key;
-			alert("I just click the delete button.   The key is: " + key);
-		});
 		console.log("Key is = " + key);
 		console.log("loop variables: i: " + i + " len: " + len + " key: " + key + " value: " + value);
-		alert("The end of loop number: "+i);
-		
+		alert("The end of loop number: " + i);
+
 	}
 };
 
