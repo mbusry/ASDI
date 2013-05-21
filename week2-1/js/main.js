@@ -29,9 +29,16 @@ $('#addAttendant').on('pageinit', function() {
 $('#list').on('pageinit', function() {
 	//code needed for list page goes here
 	listClass();
-	$("#EditPeopleButton").click(function() {
-		// key = this.key;
-		alert("I just click the edit button");
+	$("#editPeopleButton").click(function() {
+		window.location.assign('#addAttendant')
+		var key = $(this).attr('data-key');
+		var value = localStorage.getItem(key);
+		var editThis = JSON.parse(value);
+		$('#className').attr('value', editThis.className[1]);
+		$('#currentDate').attr('value', editThis.currentDate[1]);
+		$('#fname').attr('value', editThis.fname[1]);
+		$('#lname').attr('value', editThis.lname[1]);
+		$('#phoneNumber').attr('value', editThis.phoneNumber[1]);
 	});
 	$("#DeletePeopleButton").click(function() {
 		// key = this.key;
@@ -75,8 +82,12 @@ var listClass = function() {
 		$('#listPeople').append('<li>' + obj.lname[1] + '</li>');
 		$('#listPeople').append('<li>' + obj.phoneNumber[1] + '</li>');
 		$('#listPeople').append('<input type="button" value="Edit" id = "EditPeopleButton" data-key = ' + key + ' data-theme = "a" />');
+		//$('#buttonOrWhateverElement').attr('key', key);
+
 		$('#listPeople').append('</br>');
 		$('#listPeople').append('<input type="button" value="Delete" id = "DeletePeopleButton" data-key = ' + key + ' data-theme = "a" />');
+		//$('#buttonOrWhateverElement').attr('key', key);
+
 		$('#listPeople').append('</div');
 		$('#listPeople').append('<p>');
 		console.log("Key is = " + key);
