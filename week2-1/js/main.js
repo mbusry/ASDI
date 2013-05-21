@@ -29,6 +29,11 @@ $('#addAttendant').on('pageinit', function() {
 $('#list').on('pageinit', function() {
 	//code needed for list page goes here
 	listClass();
+	$("#EditPeopleButton").click(function() {
+	// key = this.key;
+	alert("I just click the edit button");
+});
+
 	// extra code goes here
 });
 
@@ -309,9 +314,5 @@ $("#clearData").click(function() {
 
 $("#listSavedData").click(function() {
 	listClass();
-});
-$("#EditPeopleButton").click(function() {
-	// key = this.key;
-	alert("I just click the edit button");
 });
 
