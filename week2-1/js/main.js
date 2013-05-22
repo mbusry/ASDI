@@ -29,24 +29,27 @@ $('#addAttendant').on('pageinit', function() {
 $('#list').on('pageinit', function() {
 	//code needed for list page goes here
 	listClass();
-$("#editPeopleButton").click(function() {
-               window.location.assign('#addAttendant');
-               $('#addForm')[0].reset();
-               var key = $(this).attr('data-key');
-               var value = localStorage.getItem(key);
-               var editThis = JSON.parse(value);
-               $('select option[value=blank]').attr('selected', false);
-               $('select option[value='+editThis.className[1]+']').attr('selected', true);
-               $('#currentDate').attr('value', editThis.currentDate[1]);
-               $('#fname').attr('value', editThis.fname[1]);
-               $('#lname').attr('value', editThis.lname[1]);
-               $('#phoneNumber').attr('value', editThis.phoneNumber[1]);
+	$("#editPeopleButton").click(function() {
+		window.location.assign('#addAttendant')
+		$('#addForm')[0].reset()
+		var key = $(this).attr('data-key');
+		var value = localStorage.getItem(key);
+		var editThis = JSON.parse(value);
+		console.log("In the #list page to edit a record with a key of " + key);
+		$('select option[value=blank]').attr('selected', false);
+		$('select option[value=' + editThis.className[1] + ']').attr('selected', true);
+		$('#currentDate').attr('value', editThis.currentDate[1]);
+		$('#fname').attr('value', editThis.fname[1]);
+		$('#lname').attr('value', editThis.lname[1]);
+		$('#phoneNumber').attr('value', editThis.phoneNumber[1]);
+		return key;
 
-       });
-       
+	});
 	$("#DeletePeopleButton").click(function() {
+		var key = $(this).attr('data-key');
+		deletePerson(key);
 		// key = this.key;
-		alert("I just click the delete button.   The key is: " + key);
+		// alert("I just click the delete button.   The key is: " + key);
 	});
 
 	// extra code goes here
@@ -55,7 +58,6 @@ $("#editPeopleButton").click(function() {
 $('#edit').on('pageinit', function() {
 	//code needed for list page goes here
 	testClass("edit");
-	console.log("I'm in the #edit pageinit: " + key);
 	// extra code goes here
 });
 
@@ -85,13 +87,9 @@ var listClass = function() {
 		$('#listPeople').append('<li>' + obj.fname[1] + '</li>');
 		$('#listPeople').append('<li>' + obj.lname[1] + '</li>');
 		$('#listPeople').append('<li>' + obj.phoneNumber[1] + '</li>');
-		$('#listPeople').append('<input type="button" value="Edit" id = "EditPeopleButton" data-key = ' + key + ' data-theme = "a" />');
-		//$('#buttonOrWhateverElement').attr('key', key);
-
+		$('#listPeople').append('<input type="button" value="Edit" id = "editPeopleButton" data-key = ' + key + ' data-theme = "a" />');
 		$('#listPeople').append('</br>');
 		$('#listPeople').append('<input type="button" value="Delete" id = "DeletePeopleButton" data-key = ' + key + ' data-theme = "a" />');
-		//$('#buttonOrWhateverElement').attr('key', key);
-
 		$('#listPeople').append('</div');
 		$('#listPeople').append('<p>');
 		console.log("Key is = " + key);
@@ -130,6 +128,7 @@ var editClass = function() {
 
 function saveData(key) {
 	testClass("saveData");
+	console.log("Entering saveData with a key of " + key);
 
 	// Looking to see if there is a key
 	if (!key) {
@@ -138,6 +137,7 @@ function saveData(key) {
 		// If there is a key id=key
 		uniqueKey = key;
 	}
+	console.log("The setting/testing of the key " + uniqueKey);
 
 	//Collect data in an object with label and
 	var person = {};
@@ -153,7 +153,7 @@ function saveData(key) {
 	// console.log(person.phoneNumber);
 	//Saving object to a string using Stringify
 	localStorage.setItem(uniqueKey, JSON.stringify(person));
-	alert("It has been saved.");
+	alert(person.fname + " has been saved.");
 
 	// ********************************** old ***************************
 
@@ -166,7 +166,7 @@ function Links(key) {
 	console.log("Key received from editLinks:" + key);
 
 	makeEditLink(key);
-	// $('#listPeople').append('<input type="button" value="Edit" id = "EditPeopleButton" data-theme = "a" />');
+	// $('#listPeople').append('<input type="button" value="Edit" id = "editPeopleButton" data-theme = "a" />');
 	// $('#listPeople').append('</br>');
 	// $('#listPeople').append('<input type="button" value="Delete" id = "DeletePeopleButton" data-theme = "a" />');
 	// $('#listPeople').append('<a href="#edit" id="editClassButton">Edit</a>');
@@ -266,42 +266,43 @@ function clearLocal() {
 
 // makeEditLink
 
-function makeEditLink(key) {
-	console.log("in makeEditLink");
-
-	ce = $('#listPeople').append('<li>');
-
-	//ce = document.createElement("li");
-	editLink = $('#listPeople').append('<a>');
-	//var editLink = document.createElement('a');
-	editLink.href = "#";
-	editLink.key = key;
-	var editText = "Edit";
-	editLink.addEventListener("click", editClass);
-	editLink.innerHTML = editText;
-	ce.appendChild(editLink);
-
-	// this section will add a br tag to seperate the links for edit and delete groceries
-	var breakTag = document.createElement('br');
-	ce.appendChild(breakTag);
-
-	// delete link
-	var deleteLink = document.createElement('a');
-	deleteLink.href = "#";
-	deleteLink.key = key;
-	var deleteText = "Delete ";
-	deleteLink.innerHTML = deleteText;
-	// will delete the grocerlist item
-	deleteLink.addEventListener("click", deletePerson);
-	ce.appendChild(deleteLink);
-};
+// function makeEditLink(key) {
+	// console.log("in makeEditLink");
+// 
+	// ce = $('#listPeople').append('<li>');
+// 
+	// //ce = document.createElement("li");
+	// editLink = $('#listPeople').append('<a>');
+	// //var editLink = document.createElement('a');
+	// editLink.href = "#";
+	// editLink.key = key;
+	// var editText = "Edit";
+	// editLink.addEventListener("click", editClass);
+	// editLink.innerHTML = editText;
+	// ce.appendChild(editLink);
+// 
+	// // this section will add a br tag to seperate the links for edit and delete groceries
+	// var breakTag = document.createElement('br');
+	// ce.appendChild(breakTag);
+// 
+	// // delete link
+	// var deleteLink = document.createElement('a');
+	// deleteLink.href = "#";
+	// deleteLink.key = key;
+	// var deleteText = "Delete ";
+	// deleteLink.innerHTML = deleteText;
+	// // will delete the grocerlist item
+	// deleteLink.addEventListener("click", deletePerson);
+	// ce.appendChild(deleteLink);
+// };
 
 // deletePerson function
 
-function deletePerson() {
+function deletePerson(key) {
+	console.log(key);
 	var ask = confirm("Are you sure you want to delete this?");
 	if (ask) {
-		localStorage.removeItem(this.key);
+		localStorage.removeItem(key);
 		alert("It was deleted");
 		window.location.reload();
 	}
@@ -324,6 +325,8 @@ $("#clearData").click(function() {
 });
 
 $("#listSavedData").click(function() {
+	location.reload();
+
 	listClass();
 });
 
